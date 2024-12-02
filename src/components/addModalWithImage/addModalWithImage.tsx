@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from "@mui/material";
-import { InputImage, TitleDiv } from "../addModal/addModalStyles";
+import { InputImage, TitleDiv, InputDiv } from "../addModal/addModalStyles";
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
 interface FieldConfig {
@@ -157,10 +157,17 @@ export function AddModalWithImage<T>({ onAdd, title, fields }: AddItemServicePro
                             />
                         </div>
                     )}
+                    <label htmlFor="fileInput" style={{ cursor: "pointer", marginBottom: "8px" }}>
+                        <InputDiv>
+                            Escolher Imagem
+                        </InputDiv>
+                    </label>
                     <InputImage
+                        id="fileInput"
                         type="file"
                         accept="image/*"
                         onChange={handleImageUpload}
+                        style={{ display: "none" }}
                     />
                     
                 </div>

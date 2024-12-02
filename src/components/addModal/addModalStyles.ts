@@ -9,17 +9,25 @@ export const TitleDiv = styled.div `
 export const InputImage = styled.input`
     width: 100%;
     height: 40px;
-    margin: 10px;
     border-radius: 10px;
     border: 2px solid #ccc;
-    background-color: #f9f9f9;
     cursor: pointer;
+    transition: all 0.3s ease;
+`;
+
+export const InputDiv = styled.div `
+    padding: 10px 20px;
+    background-color: #3a403e;
+    color: white;
+    border-radius: 10px;
+    text-align: center;    
+    font-weight: bold;
     transition: all 0.3s ease;
 
     &:hover {
         border-color: #19c289;
         background-color: #7FFFD4;
     }
-`;
+`
 
     
