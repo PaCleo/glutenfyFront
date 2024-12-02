@@ -43,6 +43,11 @@ function Ingredient() {
         ]
     });
 
+    const handleAddItem = async () => {
+        await setSelectedIngredient(null);
+        openModal();
+    };
+
     const handleEdit = (ingredient: Ingredient) => {
         setSelectedIngredient(ingredient);
         setFormValues({ name: ingredient.name });
@@ -89,7 +94,7 @@ function Ingredient() {
                         value={search}
                         onSearchChange={(value) => setSearch(value)}
                     />
-                    <AddButon onClick={openModal} />
+                    <AddButon onClick={handleAddItem} />
                 </DivSearch>
 
                 <DivList>

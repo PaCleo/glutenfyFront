@@ -35,11 +35,12 @@ function Categories() {
                 setCategories((prev) => [...prev, response.data]);
                 setFilteredCategories((prev) => [...prev, response.data]);
             }}
+            setSelectedCategories(null);
         },
         title: selectedCategories ? "Editar Categoria" : "Adicionar Categoria",
         fields: [
             { name: "title", label: "Titulo", type: "text" },
-        ]
+        ],
     });
 
     const addPrefixToBase64 = (base64String: string, type: string) => {
@@ -54,6 +55,7 @@ function Categories() {
             setImagePreview(addPrefixToBase64(categories.picture, 'jpeg'));
         }
         openModal();
+        
     };
 
 
@@ -66,6 +68,12 @@ function Categories() {
             console.error("Erro ao deletar Categorias:", error);
         }
     }
+
+    const handleAddItem = async () => {
+        await setSelectedCategories(null);
+        openModal();
+    };
+
     
 
     useEffect(() => {
@@ -96,7 +104,7 @@ function Categories() {
                         value={search}
                         onSearchChange={(value) => setSearch(value)}
                     />
-                    <AddButon onClick={openModal} />
+                    <AddButon onClick={handleAddItem} />
                 </DivSearch>
 
                 <DivList>

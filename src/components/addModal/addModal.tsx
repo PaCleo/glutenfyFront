@@ -30,12 +30,13 @@ export function AddModal<T>({ onAdd, title, fields }: AddItemServiceProps<T>) {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => {
         setIsModalOpen(false);
-        setFormValues(
-            fields.reduce((acc, field) => {
-                acc[field.name] = field.defaultValue || "";
-                return acc;
-            }, {} as FormValues)
-        );
+    
+        const resetFormValues = fields.reduce((acc, field) => {
+            acc[field.name] = field.defaultValue !== undefined ? field.defaultValue : "";
+            return acc;
+        }, {} as FormValues);
+    
+        setFormValues(resetFormValues);
     };
 
     const handleFieldChange = (fieldName: string, value: string | number) => {

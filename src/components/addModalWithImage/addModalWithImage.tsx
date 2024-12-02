@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from "@mui/material";
-import { TitleDiv } from "../addModal/addModalStyles";
+import { InputImage, TitleDiv } from "../addModal/addModalStyles";
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
 interface FieldConfig {
@@ -26,22 +26,25 @@ export function AddModalWithImage<T>({ onAdd, title, fields }: AddItemServicePro
             return acc;
         }, {} as FormValues)
     );
-    const [imagePreview, setImagePreview] = useState<string | null>(null); // Armazena a pré-visualização da imagem
-    const [imageBase64, setImageBase64] = useState<string | null>(null); // Armazena a imagem em base64
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imageBase64, setImageBase64] = useState<string | null>(null);
 
 
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => {
+    const openModal = () => {setIsModalOpen(true);}
+    const closeModal = () => {        
         setIsModalOpen(false);
-        setFormValues(
-            fields.reduce((acc, field) => {
-                acc[field.name] = field.defaultValue || "";
-                return acc;
-            }, {} as FormValues)
-        );
+    
+        const resetFormValues = fields.reduce((acc, field) => {
+            acc[field.name] = field.defaultValue !== undefined ? field.defaultValue : "";
+            return acc;
+        }, {} as FormValues);
+    
+        setFormValues(resetFormValues);
         setImagePreview(null);
         setImageBase64(null);
+    
     };
+    
 
     const handleFieldChange = (fieldName: string, value: string | number) => {
         setFormValues((prev) => ({ ...prev, [fieldName]: value }));
@@ -116,7 +119,7 @@ export function AddModalWithImage<T>({ onAdd, title, fields }: AddItemServicePro
                         label={field.label}
                         type={field.type || "text"}
                         fullWidth
-                        value={formValues[field.name]}
+                        value={formValues[field.name] ?? ""}
                         onChange={(e) => handleFieldChange(field.name, e.target.value)}
                         sx={{
                             "& .MuiOutlinedInput-root": {
@@ -154,11 +157,10 @@ export function AddModalWithImage<T>({ onAdd, title, fields }: AddItemServicePro
                             />
                         </div>
                     )}
-                    <input
+                    <InputImage
                         type="file"
                         accept="image/*"
                         onChange={handleImageUpload}
-                        style={{ display: "block", marginBottom: "16px" }}
                     />
                     
                 </div>
@@ -194,7 +196,6 @@ export function AddModalWithImage<T>({ onAdd, title, fields }: AddItemServicePro
     const setExternalFormValues = (values: Partial<FormValues>) => {
         setFormValues((prev) => ({ ...prev, ...values }));
     };
-    console.log(imagePreview);
 
 
     return {
