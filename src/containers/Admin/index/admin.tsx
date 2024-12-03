@@ -5,6 +5,7 @@ import Clientes from "../clientes/clientes"
 import MinhaEquipe from "../myTeam/myTeam"
 import Ingredientes from "../Ingredient/ingredient"
 import Categorias from "../categories/categories"
+import SubCategory from "../subCategory/subCategory"
 
 
 export default function Admin() {
@@ -20,9 +21,9 @@ export default function Admin() {
                 return <Ingredientes />;
             case "Categorias":
                 return <Categorias />;
-            /*case "SubCategorias":
-                return <SubCategorias />;
-            case "Planos":
+            case "SubCategorias":
+                return <SubCategory />;
+            /*case "Planos":
                 return <Planos />;
             case "Receitas":
                 return <Receitas />;

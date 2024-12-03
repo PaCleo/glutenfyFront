@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from "@mui/material";
 import { InputImage, TitleDiv, InputDiv } from "../addModal/addModalStyles";
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import Autocomplete from "@mui/material/Autocomplete";
 
 interface FieldConfig {
     name: string;
     label: string;
-    type?: "text" | "number" | "password";
+    type?: "text" | "number" | "password" | "autocomplete";
     defaultValue?: string | number;
+    options?: { label: string; value: string | number }[];
 }
 
 interface AddItemServiceProps<T> {
@@ -111,32 +113,67 @@ export function AddModalWithImage<T>({ onAdd, title, fields }: AddItemServicePro
             </TitleDiv>
 
             <DialogContent>
-                {fields.map((field) => (
-                    <TextField
-                        key={field.name}
-                        autoFocus={fields[0].name === field.name}
-                        margin="dense"
-                        label={field.label}
-                        type={field.type || "text"}
-                        fullWidth
-                        value={formValues[field.name] ?? ""}
-                        onChange={(e) => handleFieldChange(field.name, e.target.value)}
-                        sx={{
-                            "& .MuiOutlinedInput-root": {
-                                "& fieldset": {
-                                    borderColor: "rgba(255, 165, 0, 0.8)",
-                                    borderRadius: "16px",
+                {fields.map((field) => {
+                    if (field.type === "autocomplete" && field.options) {
+                        return (
+                            <Autocomplete
+                                disablePortal
+                                key={field.name}
+                                options={field.options}
+                                getOptionLabel={(option) => option.label}
+                                onChange={(_, value) =>
+                                    handleFieldChange(field.name, value ? value.value : "")
+                                }
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label={field.label}
+                                        margin="dense"
+                                        fullWidth
+                                    />
+                                )}
+                                value={
+                                    field.options.find(
+                                        (option) => option.value === formValues[field.name]
+                                    ) || null
+                                }
+                                sx={{
+                                    "& .MuiOutlinedInput-root": {
+                                        "& fieldset": {
+                                            borderColor: "rgba(255, 165, 0, 0.8)",
+                                            borderRadius: "16px",
+                                        },
+                                        "&:hover fieldset": { borderColor: "#F37227" },
+                                        "&.Mui-focused fieldset": { borderColor: "#7FFFD4" },
+                                    },
+                                }}
+                            />
+                        );
+                    }
+
+                    return (
+                        <TextField
+                            key={field.name}
+                            autoFocus={fields[0].name === field.name}
+                            margin="dense"
+                            label={field.label}
+                            type={field.type || "text"}
+                            fullWidth
+                            value={formValues[field.name] ?? ""}
+                            onChange={(e) => handleFieldChange(field.name, e.target.value)}
+                            sx={{
+                                "& .MuiOutlinedInput-root": {
+                                    "& fieldset": {
+                                        borderColor: "rgba(255, 165, 0, 0.8)",
+                                        borderRadius: "16px",
+                                    },
+                                    "&:hover fieldset": { borderColor: "#F37227" },
+                                    "&.Mui-focused fieldset": { borderColor: "#7FFFD4" },
                                 },
-                                "&:hover fieldset": {
-                                    borderColor: "#F37227",
-                                },
-                                "&.Mui-focused fieldset": {
-                                    borderColor: "#7FFFD4",
-                                },
-                            },
-                        }}
-                    />
-                ))}
+                            }}
+                        />
+                    );
+                })}
 
                 <div style={{ marginTop: "16px" }}>
                     {imagePreview && (
