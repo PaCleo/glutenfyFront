@@ -70,12 +70,12 @@ export function AddModalWithImage<T>({ onAdd, title, fields }: AddItemServicePro
         try {
             const formData = new FormData();
             Object.keys(formValues).forEach((key) => {
-                formData.append(key, formValues[key]?.toString() || ''); // Adiciona cada campo do form
+                formData.append(key, formValues[key]?.toString() || '');
             });
             if (imageBase64) {
-                formData.append("picture", imageBase64); // Adiciona a imagem ao formulário
+                formData.append("picture", imageBase64);
             }
-            await onAdd(formData as unknown as T); // Envia o FormData
+            await onAdd(formData as unknown as T);
         } catch (error) {
             console.error("Erro ao adicionar item:", error);
         } finally {
