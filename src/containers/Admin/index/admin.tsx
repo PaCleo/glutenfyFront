@@ -7,6 +7,7 @@ import Ingredientes from "../Ingredient/ingredient"
 import Categorias from "../categories/categories"
 import SubCategory from "../subCategory/subCategory"
 import Planos from "../plans/plans"
+import Recepi from "../Recipes/recipe"
 
 
 export default function Admin() {
@@ -26,9 +27,9 @@ export default function Admin() {
                 return <SubCategory />;
             case "Planos":
                 return <Planos />;
-            /*case "Receitas":
-                return <Receitas />;
-            case "Chat":
+            case "Receitas":
+                return <Recepi />;
+            /*case "Chat":
                 return <Chat />;*/
             default:
                 return <Clientes />;
