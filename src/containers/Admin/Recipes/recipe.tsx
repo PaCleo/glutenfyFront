@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import AdminHeader from "../../../components/adminHeader/adminHeader";
 import SearchBar from "../../../components/searchBar/searchBar";
 import { DivBody, DivList, Table, TableHeader, TableRow, TableCell, TableActionDiv, TableButton, TableHeaderCell, DivSearch } from "../../../styles/ListStyles";
@@ -22,6 +22,8 @@ function Recipe() {
     const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
     const [subCategories, setSubCategories] = useState<SubCategory[]>([]);
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+
+    const isDataLoaded = useRef(false);
 
     const { openModal, AddItemModal, setFormValues, setImagePreview } = AddModalWithImage({
         onAdd: async (FormValue) => {
@@ -82,8 +84,6 @@ function Recipe() {
       };
 
     const updateIngredientRecipes = async (ingredientRecipes: IngredientRecipe[], ingredients: Ingredient[]) => {
-        console.log(ingredientRecipes);
-        console.log(ingredients);
         return Promise.all(
             ingredientRecipes.map(async (ingredientRecipe) => {
                 const foundIngredient = ingredients.find((ingredient) =>
@@ -181,13 +181,15 @@ function Recipe() {
                 }
                 const DataIngredient = await apiClient.get("/ingredient");
                 if (DataIngredient.status == 200) setIngredients(DataIngredient.data);
+
+                isDataLoaded.current = true;
             } catch (error) {
                 console.error("Erro ao buscar Categorias:", error);
             }
         };
 
         loadRecipe();
-    }, [ingredients]);
+    }, []);
 
     useEffect(() => {
         const filtered = SearchBarFilter(Recipe, search, ["name"]);

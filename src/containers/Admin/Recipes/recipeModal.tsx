@@ -524,8 +524,8 @@ export function AddModalWithImage({
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {formValues.steps.map((step, index) => (
-                                    <TableRow key={index}>
+                                {formValues.steps.sort((a, b) => a.number - b.number).map((step, index) => (
+                                    <TableRow key={step.number}>
                                         <TableCell>{step.number}</TableCell>
                                         <TableCell
                                             sx={{
