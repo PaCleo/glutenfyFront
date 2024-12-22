@@ -17,7 +17,13 @@ export default function Login() {
       console.log(response.data);
       window.location.href = "/admin";
     } catch {
-      setError("Credenciais inválidas. Tente novamente.",);
+      setError("Credenciais inválidas. Tente novamente.");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleLogin();
     }
   };
 
@@ -32,12 +38,14 @@ export default function Login() {
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <Input
           type="password"
           placeholder="Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <Button onClick={handleLogin}>Entrar</Button>
       </LoginContainer>

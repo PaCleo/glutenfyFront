@@ -10,6 +10,8 @@ import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined';
 import LunchDiningOutlinedIcon from '@mui/icons-material/LunchDiningOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import Logout from "../../services/logout/logout";
+import { useNavigate } from "react-router-dom";
 
 interface SideBarProps {
     onPageChange: (name: string) => void;
@@ -17,6 +19,7 @@ interface SideBarProps {
 
 function SideBar({ onPageChange }: SideBarProps) {
     const [selectedItem, setSelectedItem] = useState("Clientes");
+    const navigate = useNavigate();
 
     const items = [
         { name: "Clientes", icon: <SentimentSatisfiedAltOutlinedIcon sx={{ fontSize: 24 }} /> },
@@ -54,7 +57,7 @@ function SideBar({ onPageChange }: SideBarProps) {
                 <Line />
                 <SideBarContainer
                     selected={selectedItem === "Sair"}
-                    onClick={() => setSelectedItem("Sair")}
+                    onClick={() => Logout(navigate)}
                 >
                     <SideBarItem selected={selectedItem === "Sair"}>
                         <div><LogoutOutlinedIcon sx={{ fontSize: 24 }} /></div>
